@@ -10,7 +10,20 @@ const orderBook = (existingBook, incomingOrder) => {
 
   if (incomingOrder.type === 'sell') {
     if (existingBook.some(order => order.type === 'buy' && order.price === incomingOrder.price)) {
-      console.log('Do Something')
+      existingBook.forEach((order, i) => {
+        if (order.type === 'buy' && order.price === incomingOrder.price) {
+          let newQty = null
+
+          newQty = incomingOrder.quantity - order.quantity
+          if (newQty === 0) {
+            existingBook.splice(i, 1)
+          } else {
+            order.quantity = newQty
+          }
+        }
+        incomingOrder = []
+      })
+      updatedBook = existingBook
     } else {
       console.log('No Order Matches')
       updatedBook = existingBook.concat(incomingOrder)
@@ -25,8 +38,8 @@ const orderBook = (existingBook, incomingOrder) => {
 
 module.exports = orderBook
 
-const existingBook = [{ type: 'sell', quantity: 10, price: 6150 }]
-const incomingOrder = { type: 'sell', quantity: 12, price: 6000 }
+const existingBook = [{ type: 'buy', quantity: 10, price: 6150 }, { type: 'sell', quantity: 12, price: 6250 }]
+const incomingOrder = { type: 'sell', quantity: 10, price: 6150 }
 
 console.log(orderBook(existingBook, incomingOrder))
 
