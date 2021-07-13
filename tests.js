@@ -38,7 +38,7 @@ describe('Order Book', () => {
       ])
     })
 
-    it('fulfills an order and removes the matching order when the book contains a matching order of the same quantity', () => {
+    xit('fulfills an order and removes the matching order when the book contains a matching order of the same quantity', () => {
       const existingBook = [{ type: 'buy', quantity: 10, price: 6150 }, { type: 'sell', quantity: 12, price: 6250 }]
       const incomingOrder = { type: 'sell', quantity: 10, price: 6150 }
 
@@ -47,7 +47,7 @@ describe('Order Book', () => {
       expect(updatedBook).to.deep.equal([{ type: 'sell', quantity: 12, price: 6250 }])
     })
 
-    it('fulfills an order and reduces the matching order when the book contains a matching order of a larger quantity', () => {
+    xit('fulfills an order and reduces the matching order when the book contains a matching order of a larger quantity', () => {
       const existingBook = [{ type: 'buy', quantity: 15, price: 6150 }, { type: 'sell', quantity: 12, price: 6950 }]
       const incomingOrder = { type: 'sell', quantity: 10, price: 6150 }
 
@@ -56,7 +56,7 @@ describe('Order Book', () => {
       expect(updatedBook).to.deep.equal([{ type: 'sell', quantity: 12, price: 6950 }, { type: 'buy', quantity: 5, price: 6150 }])
     })
 
-    it('partially fulfills an order, removes the matching order and adds the remainder of the order to the book when the book contains a matching order of a smaller quantity', () => {
+    xit('partially fulfills an order, removes the matching order and adds the remainder of the order to the book when the book contains a matching order of a smaller quantity', () => {
       const existingBook = [{ type: 'buy', quantity: 10, price: 6150 }, { type: 'sell', quantity: 12, price: 5950 }]
       const incomingOrder = { type: 'sell', quantity: 15, price: 6150 }
 
@@ -65,7 +65,7 @@ describe('Order Book', () => {
       expect(updatedBook).to.deep.equal([{ type: 'sell', quantity: 12, price: 5950 }, { type: 'sell', quantity: 5, price: 6150 }])
     })
 
-    it('uses two existing orders to completely fulfill an order, removing the matching orders from the book', () => {
+    xit('uses two existing orders to completely fulfill an order, removing the matching orders from the book', () => {
       const existingBook = [{ type: 'buy', quantity: 10, price: 6150 }, { type: 'buy', quantity: 5, price: 6150 }, { type: 'sell', quantity: 12, price: 5950 }]
       const incomingOrder = { type: 'sell', quantity: 15, price: 6150 }
 
@@ -74,7 +74,7 @@ describe('Order Book', () => {
       expect(updatedBook).to.deep.equal([{ type: 'sell', quantity: 12, price: 5950 }])
     })
 
-    it('uses two existing orders to completely fulfill an order, removing the first matching order from the book and reducing the second', () => {
+    xit('uses two existing orders to completely fulfill an order, removing the first matching order from the book and reducing the second', () => {
       const existingBook = [{ type: 'buy', quantity: 10, price: 6150 }, { type: 'buy', quantity: 10, price: 6150 }, { type: 'sell', quantity: 12, price: 6950 }]
       const incomingOrder = { type: 'sell', quantity: 15, price: 6150 }
 
@@ -83,7 +83,7 @@ describe('Order Book', () => {
       expect(updatedBook).to.deep.equal([{ type: 'sell', quantity: 12, price: 6950 }, { type: 'buy', quantity: 5, price: 6150 }])
     })
 
-    it('uses two existing orders to partially fulfill an order, removing the matching orders from the book and reducing the incoming order before adding it to the book', () => {
+    xit('uses two existing orders to partially fulfill an order, removing the matching orders from the book and reducing the incoming order before adding it to the book', () => {
       const existingBook = [{ type: 'buy', quantity: 10, price: 6150 }, { type: 'buy', quantity: 10, price: 6150 }, { type: 'sell', quantity: 12, price: 6950 }]
       const incomingOrder = { type: 'sell', quantity: 25, price: 6150 }
 
