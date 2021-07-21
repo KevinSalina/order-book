@@ -6,20 +6,24 @@ const orderBook = (existingBook, incomingOrder) => {
   }
 
   for (const [index, currentOrder] of existingBook.entries()) {
-    if (currentOrder.type !== incomingOrder.type && currentOrder.price === incomingOrder.price) {
+    // eslint-disable-next-line max-len
+    const misMatchCriteria = ((incomingOrder.type === 'sell' && (incomingOrder.price <= currentOrder.price)) || (incomingOrder.type === 'buy' && incomingOrder.price >= currentOrder.price))
+    const matchingPriceCriteria = currentOrder.price === incomingOrder.price
+
+    if (currentOrder.type !== incomingOrder.type && misMatchCriteria) {
       if (currentOrder.quantity === incomingOrder.quantity) {
         existingBook.splice(index, 1)
         updatedBook = existingBook
 
         return updatedBook
-      } else if (currentOrder.quantity > incomingOrder.quantity) {
-        currentOrder.quantity = currentOrder.quantity - incomingOrder.quantity
+      } else if (currentOrder.quantity > incomingOrder.quantity && matchingPriceCriteria) {
+        currentOrder.quantity -= incomingOrder.quantity
         existingBook.push(...existingBook.splice(index, 1))
         updatedBook = existingBook
 
         return updatedBook
-      } else if (incomingOrder.quantity > currentOrder.quantity) {
-        incomingOrder.quantity = incomingOrder.quantity - currentOrder.quantity
+      } else if (incomingOrder.quantity > currentOrder.quantity && matchingPriceCriteria) {
+        incomingOrder.quantity -= currentOrder.quantity
         existingBook.splice(index, 1)
         if (existingBook.some(order => order.type !== incomingOrder.type && order.price === incomingOrder.price)) {
           let updatedOrder = incomingOrder
@@ -38,5 +42,5 @@ const orderBook = (existingBook, incomingOrder) => {
   return updatedBook
 }
 
-
 module.exports = orderBook
+
