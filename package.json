@@ -6,7 +6,7 @@
   "scripts": {
     "lint": "./node_modules/.bin/eslint --format codeframe .",
     "test": "./node_modules/.bin/mocha ./tests.js",
-    "debug": "node orderbook1.js"
+    "debug": "node orderbook.js"
   },
   "repository": {
     "type": "git",
