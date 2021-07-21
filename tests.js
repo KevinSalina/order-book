@@ -1,7 +1,7 @@
 /* eslint-disable max-len */
 const { expect } = require('chai')
 const { describe, it } = require('mocha')
-const reconcileOrder = require('./orderBook')
+const reconcileOrder = require('./orderbook')
 
 describe('Order Book', () => {
   describe('reconcileOrder', () => {
@@ -65,7 +65,7 @@ describe('Order Book', () => {
       expect(updatedBook).to.deep.equal([{ type: 'sell', quantity: 12, price: 5950 }, { type: 'sell', quantity: 5, price: 6150 }])
     })
 
-    xit('uses two existing orders to completely fulfill an order, removing the matching orders from the book', () => {
+    it('uses two existing orders to completely fulfill an order, removing the matching orders from the book', () => {
       const existingBook = [{ type: 'buy', quantity: 10, price: 6150 }, { type: 'buy', quantity: 5, price: 6150 }, { type: 'sell', quantity: 12, price: 5950 }]
       const incomingOrder = { type: 'sell', quantity: 15, price: 6150 }
 
@@ -74,7 +74,7 @@ describe('Order Book', () => {
       expect(updatedBook).to.deep.equal([{ type: 'sell', quantity: 12, price: 5950 }])
     })
 
-    xit('uses two existing orders to completely fulfill an order, removing the first matching order from the book and reducing the second', () => {
+    it('uses two existing orders to completely fulfill an order, removing the first matching order from the book and reducing the second', () => {
       const existingBook = [{ type: 'buy', quantity: 10, price: 6150 }, { type: 'buy', quantity: 10, price: 6150 }, { type: 'sell', quantity: 12, price: 6950 }]
       const incomingOrder = { type: 'sell', quantity: 15, price: 6150 }
 
@@ -83,7 +83,7 @@ describe('Order Book', () => {
       expect(updatedBook).to.deep.equal([{ type: 'sell', quantity: 12, price: 6950 }, { type: 'buy', quantity: 5, price: 6150 }])
     })
 
-    xit('uses two existing orders to partially fulfill an order, removing the matching orders from the book and reducing the incoming order before adding it to the book', () => {
+    it('uses two existing orders to partially fulfill an order, removing the matching orders from the book and reducing the incoming order before adding it to the book', () => {
       const existingBook = [{ type: 'buy', quantity: 10, price: 6150 }, { type: 'buy', quantity: 10, price: 6150 }, { type: 'sell', quantity: 12, price: 6950 }]
       const incomingOrder = { type: 'sell', quantity: 25, price: 6150 }
 

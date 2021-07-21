@@ -1,36 +1,36 @@
-/* eslint-disable no-console */
 const orderBook = (existingBook, incomingOrder) => {
   let updatedBook = []
 
   if (existingBook.length <= 0) {
-    console.log('No Exisitng Orders')
-
-    return updatedBook.concat(incomingOrder)
+    return existingBook.concat(incomingOrder)
   }
 
-  if (incomingOrder.type === 'sell') {
-    if (existingBook.some(order => order.type === 'buy' && order.price === incomingOrder.price)) {
-      existingBook.forEach((order, i) => {
-        if (order.type === 'buy' && order.price === incomingOrder.price) {
-          let newQty = null
+  for (const [index, currentOrder] of existingBook.entries()) {
+    if (currentOrder.type !== incomingOrder.type && currentOrder.price === incomingOrder.price) {
+      if (currentOrder.quantity === incomingOrder.quantity) {
+        existingBook.splice(index, 1)
+        updatedBook = existingBook
 
-          newQty = incomingOrder.quantity - order.quantity
-          if (newQty === 0) {
-            existingBook.splice(i, 1)
-          } else if (newQty > 0) {
-            existingBook.splice(i, 1)
-            incomingOrder.quantity = newQty
-            existingBook.push(incomingOrder)
-          } else {
-            order.quantity = Math.abs(newQty)
-            existingBook.push(...existingBook.splice(i, 1))
-          }
+        return updatedBook
+      } else if (currentOrder.quantity > incomingOrder.quantity) {
+        currentOrder.quantity = currentOrder.quantity - incomingOrder.quantity
+        existingBook.push(...existingBook.splice(index, 1))
+        updatedBook = existingBook
+
+        return updatedBook
+      } else if (incomingOrder.quantity > currentOrder.quantity) {
+        incomingOrder.quantity = incomingOrder.quantity - currentOrder.quantity
+        existingBook.splice(index, 1)
+        if (existingBook.some(order => order.type !== incomingOrder.type && order.price === incomingOrder.price)) {
+          let updatedOrder = incomingOrder
+
+          incomingOrder = []
+
+          return orderBook(existingBook, updatedOrder)
         }
-        incomingOrder = []
-      })
-      updatedBook = existingBook
+        updatedBook = existingBook.concat(incomingOrder)
+      }
     } else {
-      console.log('No Order Matches')
       updatedBook = existingBook.concat(incomingOrder)
     }
   }
@@ -39,13 +39,4 @@ const orderBook = (existingBook, incomingOrder) => {
 }
 
 
-
-
 module.exports = orderBook
-
-const existingBook = [{ type: 'buy', quantity: 10, price: 6150 }, { type: 'sell', quantity: 12, price: 5950 }]
-const incomingOrder = { type: 'sell', quantity: 15, price: 6150 }
-
-console.log(orderBook(existingBook, incomingOrder))
-
-
