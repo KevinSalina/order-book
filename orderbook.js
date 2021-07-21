@@ -17,8 +17,13 @@ const orderBook = (existingBook, incomingOrder) => {
           newQty = incomingOrder.quantity - order.quantity
           if (newQty === 0) {
             existingBook.splice(i, 1)
+          } else if (newQty > 0) {
+            existingBook.splice(i, 1)
+            incomingOrder.quantity = newQty
+            existingBook.push(incomingOrder)
           } else {
-            order.quantity = newQty
+            order.quantity = Math.abs(newQty)
+            existingBook.push(...existingBook.splice(i, 1))
           }
         }
         incomingOrder = []
@@ -38,8 +43,8 @@ const orderBook = (existingBook, incomingOrder) => {
 
 module.exports = orderBook
 
-const existingBook = [{ type: 'buy', quantity: 10, price: 6150 }, { type: 'sell', quantity: 12, price: 6250 }]
-const incomingOrder = { type: 'sell', quantity: 10, price: 6150 }
+const existingBook = [{ type: 'buy', quantity: 10, price: 6150 }, { type: 'sell', quantity: 12, price: 5950 }]
+const incomingOrder = { type: 'sell', quantity: 15, price: 6150 }
 
 console.log(orderBook(existingBook, incomingOrder))
 
